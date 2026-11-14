@@ -1,0 +1,6 @@
+/build/
+/tinyvm
+/.cache/
+*.o
+*.d
+

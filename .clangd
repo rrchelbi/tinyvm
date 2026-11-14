@@ -1,0 +1,17 @@
+CompileFlags:
+  Add:
+    - -std=c23
+    - -D_GNU_SOURCE
+    - -Iinclude
+    - -Itests
+    - -Isrc
+    - -Wall
+    - -Wextra
+    - -Wpedantic
+
+Diagnostics:
+  UnusedIncludes: Strict
+
+InlayHints:
+  Enabled: Yes
+
