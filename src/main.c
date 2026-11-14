@@ -15,7 +15,7 @@ enum {
 
 int main(int argc, char **argv) {
   if (argc == 2 && strcmp(argv[1], "--version") == 0) {
-    printf("tinyvm %s (chapter 1 scaffold)\n", TINYVM_VERSION);
+    printf("tinyvm %s\n", TINYVM_VERSION);
     return EXIT_SUCCESS;
   }
 

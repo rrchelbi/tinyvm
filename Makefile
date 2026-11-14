@@ -20,6 +20,7 @@ TARGET := tinyvm
 BUILD_DIR := build
 OBJ_DIR := $(BUILD_DIR)/obj
 TEST_DIR := $(BUILD_DIR)/tests
+TOOL_DIR := $(BUILD_DIR)/tools
 SRC_DIR := src
 
 SOURCES := main.c
@@ -28,6 +29,9 @@ DEPS := $(OBJECTS:.o=.d)
 
 TEST_BINS := $(TEST_DIR)/test_smoke
 TEST_DEPS := $(TEST_BINS:=.d)
+
+TOOL_BINS := $(TOOL_DIR)/kvm_probe
+TOOL_DEPS := $(TOOL_BINS:=.d)
 
 .PHONY: all test check tools clean
 
@@ -44,6 +48,10 @@ $(TEST_DIR)/%: tests/unit/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) -Itests $(CFLAGS) -o $@ $<
 
+$(TOOL_DIR)/%: tools/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $<
+
 test: $(TEST_BINS)
 	@for test in $(TEST_BINS); do \
 		echo "== $$test"; \
@@ -53,11 +61,10 @@ test: $(TEST_BINS)
 
 check: test
 
-tools:
-	@mkdir -p $(BUILD_DIR)/tools
+tools: $(TOOL_BINS)
 
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
 
--include $(DEPS) $(TEST_DEPS)
+-include $(DEPS) $(TEST_DEPS) $(TOOL_DEPS)
 
