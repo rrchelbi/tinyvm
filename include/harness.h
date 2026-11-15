@@ -1,7 +1,6 @@
 #ifndef TINYVM_TEST_HARNESS_H
 #define TINYVM_TEST_HARNESS_H
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
