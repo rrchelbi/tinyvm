@@ -1,22 +1,8 @@
 CompileFlags:
-  Add:
-    - -std=c23
-    - -D_GNU_SOURCE
-    - -Iinclude
-    - -Isrc
-    - -Wall
-    - -Wextra
-    - -Wpedantic
+  CompilationDatabase: build
 
 Diagnostics:
   UnusedIncludes: Strict
 
 InlayHints:
-  Enabled: Yes
-
----
-If:
-  PathMatch: tests/.*
-CompileFlags:
-  Add: [-Itests]
-
+  Enabled: true
