@@ -18,16 +18,24 @@ endif
 
 TARGET := tinyvm
 BUILD_DIR := build
+ifeq ($(SANITIZE),1)
+BUILD_DIR := build/sanitize
+endif
+
 OBJ_DIR := $(BUILD_DIR)/obj
 TEST_DIR := $(BUILD_DIR)/tests
 TOOL_DIR := $(BUILD_DIR)/tools
 SRC_DIR := src
 
-SOURCES := main.c
-OBJECTS := $(SOURCES:%.c=$(OBJ_DIR)/%.o)
+LIB_SOURCES := kvm.c
+CLI_SOURCES := main.c
+
+LIB_OBJECTS := $(LIB_SOURCES:%.c=$(OBJ_DIR)/%.o)
+CLI_OBJECTS := $(CLI_SOURCES:%.c=$(OBJ_DIR)/%.o)
+OBJECTS := $(CLI_OBJECTS) $(LIB_OBJECTS)
 DEPS := $(OBJECTS:.o=.d)
 
-TEST_BINS := $(TEST_DIR)/test_smoke
+TEST_BINS := $(TEST_DIR)/test_smoke $(TEST_DIR)/test_vm
 TEST_DEPS := $(TEST_BINS:=.d)
 
 TOOL_BINS := $(TOOL_DIR)/kvm_probe
@@ -44,13 +52,13 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
-$(TEST_DIR)/%: tests/unit/%.c
+$(TEST_DIR)/%: tests/unit/%.c $(LIB_OBJECTS)
 	@mkdir -p $(dir $@)
-	$(CC) $(CPPFLAGS) -Itests $(CFLAGS) -o $@ $<
+	$(CC) $(CPPFLAGS) -Itests $(CFLAGS) -o $@ $< $(LIB_OBJECTS)
 
-$(TOOL_DIR)/%: tools/%.c
+$(TOOL_DIR)/%: tools/%.c $(LIB_OBJECTS)
 	@mkdir -p $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $< $(LIB_OBJECTS)
 
 test: $(TEST_BINS)
 	@for test in $(TEST_BINS); do \
@@ -64,7 +72,7 @@ check: test
 tools: $(TOOL_BINS)
 
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET)
+	rm -rf build $(TARGET)
 
 -include $(DEPS) $(TEST_DEPS) $(TOOL_DEPS)
 
