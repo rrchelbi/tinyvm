@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 /*
  * Small dependency-free test harness. CHECK always evaluates its argument,
