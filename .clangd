@@ -3,7 +3,6 @@ CompileFlags:
     - -std=c23
     - -D_GNU_SOURCE
     - -Iinclude
-    - -Itests
     - -Isrc
     - -Wall
     - -Wextra
@@ -14,4 +13,10 @@ Diagnostics:
 
 InlayHints:
   Enabled: Yes
+
+---
+If:
+  PathMatch: tests/.*
+CompileFlags:
+  Add: [-Itests]
 
