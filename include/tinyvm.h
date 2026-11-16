@@ -1,6 +1,7 @@
 #ifndef TINYVM_H
 #define TINYVM_H
 
+#include <linux/kvm.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -16,11 +17,15 @@ enum {
 struct tinyvm_vm {
   int kvm_fd;
   int vm_fd;
+  int vcpu_fd;
   uint8_t *mem;
   size_t mem_size;
+  struct kvm_run *run;
+  size_t run_size;
 };
 
 int tinyvm_vm_init(struct tinyvm_vm *vm);
+int tinyvm_vm_create_vcpu(struct tinyvm_vm *vm);
 void tinyvm_vm_destroy(struct tinyvm_vm *vm);
 
 #endif /* TINYVM_H */

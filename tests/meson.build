@@ -12,4 +12,10 @@ test_vm = executable(
 )
 test('vm', test_vm)
 
+test_vcpu = executable(
+  'test_vcpu',
+  'unit/test_vcpu.c',
+  dependencies: core,
+)
+test('vcpu', test_vcpu)
 
