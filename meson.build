@@ -17,6 +17,7 @@ add_project_arguments('-D_GNU_SOURCE', language: 'c')
 tinyvm_core = static_library(
   'tinyvm_core',
   'src/kvm.c',
+  'src/guest.c',
   include_directories: inc,
 )
 

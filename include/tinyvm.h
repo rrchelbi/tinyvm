@@ -9,6 +9,8 @@
 
 enum {
   TINYVM_GUEST_MEM_SIZE = 0x8000,
+  TINYVM_GUEST_LOAD_ADDR = 0x1000,
+  TINYVM_GUEST_MAX_IMAGE_SIZE = 0x1000,
 
   TINYVM_OK = 0,
   TINYVM_ERROR = -1,
@@ -27,5 +29,10 @@ struct tinyvm_vm {
 int tinyvm_vm_init(struct tinyvm_vm *vm);
 int tinyvm_vm_create_vcpu(struct tinyvm_vm *vm);
 void tinyvm_vm_destroy(struct tinyvm_vm *vm);
+
+int tinyvm_guest_load(struct tinyvm_vm *vm, const char *path,
+                      size_t *loaded_size);
+int tinyvm_guest_load_bytes(struct tinyvm_vm *vm, const void *data,
+                            size_t size);
 
 #endif /* TINYVM_H */

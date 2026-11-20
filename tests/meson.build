@@ -19,3 +19,10 @@ test_vcpu = executable(
 )
 test('vcpu', test_vcpu)
 
+test_guest = executable(
+  'test_guest',
+  'unit/test_guest.c',
+  dependencies: core,
+)
+test('guest', test_guest)
+
